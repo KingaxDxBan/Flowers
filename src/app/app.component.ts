@@ -1,9 +1,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import {TemperatureChartComponent} from "./temperature-chart/temperature-chart.component";
 
 interface FlowerData {
+  temperature: string;
+  Data: number[];
+  temperatureData: number[];
   name: string;
+  summer: string;
+  winter: string;
   wateringDate: string;
   wateringFrequency: string;
   waterInTank: string;
@@ -21,29 +28,62 @@ export class AppComponent {
   title = 'Flowers';
   lastDataFetchTime: Date | undefined;
   selectedFlower: string = '';
+  constructor(private dialog: MatDialog) {}
+
   flowers: FlowerData[] = [
     {
+      temperature: '20°C',
+      temperatureData: [20, 21, 19, 20, 22, 20, 21],
+      Data: [1, 2, 3, 4, 5, 6, 7],
       name: 'Storczyk',
+      summer:'250 ml',
+      winter:'200 ml',
       wateringDate: '01-01-2024',
       wateringFrequency: '3 dni',
       waterInTank: '100 ml',
       waterForWatering: '200 ml'
     },
     {
+      temperature: '20°C',
+      temperatureData: [20, 21, 19, 20, 22, 20, 21],
+      Data: [1, 2, 3, 4, 5, 6, 7],
       name: 'Tulipan',
+      summer:'300 ml',
+      winter:'250 ml',
       wateringDate: '02-01-2024',
       wateringFrequency: '2 dni',
       waterInTank: '700 ml',
       waterForWatering: '250 ml'
     },
     {
+      temperature: '20°C',
+      temperatureData: [20, 21, 19, 20, 22, 20, 21],
+      Data: [1, 2, 3, 4, 5, 6, 7],
       name: 'Lawenda',
+      summer:'200 ml',
+      winter:'180 ml',
       wateringDate: '03-01-2024',
       wateringFrequency: '4 dni',
       waterInTank: '400 ml',
       waterForWatering: '180 ml'
     }
   ];
+
+  openTemperatureChart(flowerName: string) {
+    const flowerData = this.getFlowerData(flowerName);
+    if (flowerData) {
+      console.log(flowerData.temperatureData)
+      this.dialog.open(TemperatureChartComponent, {
+        data: {
+          temperatureData: flowerData.temperatureData,
+          Data: flowerData.Data
+        }
+      });
+    } else {
+      console.log(`No data found for flower: ${flowerName}`);
+    }
+  }
+
 
   showFlowerData(flowerName: string) {
     this.selectedFlower = flowerName;

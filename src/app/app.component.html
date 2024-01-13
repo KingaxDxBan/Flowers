@@ -3,9 +3,8 @@
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    padding: 1rem;
     font-family: 'Arial', sans-serif;
-    height: 90vh;
+    height: 95vh;
   }
 
   .left-side,
@@ -32,15 +31,8 @@
     flex-direction: column;
   }
 
-  .flower {
-    padding: 1rem;
-    margin-bottom: 0.8rem;
-    background-color: #e6e6e6;
-    border-radius: 0.5rem;
-  }
-
   .segment {
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     padding: 1.2rem;
     background-color: #fff;
     border: 0.1rem solid #ccc;
@@ -119,7 +111,6 @@
     }
   }
 </style>
-
 <div class="main-container">
   <div class="left-side">
     <div class="flowers-list">
@@ -128,26 +119,26 @@
       </button>
     </div>
   </div>
-
   <div class="center">
     <div class="custom-title">Dane o {{ selectedFlower }}</div>
+    <div *ngIf="selectedFlower" class="segment" (click)="openTemperatureChart(selectedFlower)">
+      <div class="title">Temperatura</div>
+      <div class="content">{{ getFlowerData(selectedFlower)?.temperature }}</div>
+    </div>
     <div *ngIf="selectedFlower" class="segment">
       <div class="title">Przewidywana data podlewania</div>
       <div class="content">{{ getFlowerData(selectedFlower)?.wateringDate }}</div>
     </div>
-
     <div *ngIf="selectedFlower" class="segment">
       <div class="title">Co ile podlewanie</div>
       <div class="content">{{ getFlowerData(selectedFlower)?.wateringFrequency }}</div>
     </div>
-
     <div *ngIf="selectedFlower" class="segment">
       <div class="title">Ilość wody potrzebnej do podlania</div>
       <div class="content" [ngClass]="{'insufficient-water': isWaterInsufficient(selectedFlower)}">
         {{ getFlowerData(selectedFlower)?.waterForWatering }}
       </div>
     </div>
-
     <div *ngIf="selectedFlower" class="segment">
       <div class="title">Ilość wody w zbiorniku</div>
       <div class="content" [ngClass]="{'insufficient-water': isWaterInsufficient(selectedFlower)}">
@@ -156,17 +147,23 @@
       </div>
     </div>
   </div>
-
   <div class="right-side">
     <div class="custom-title">Ilość zużytej wody</div>
     <div *ngIf="selectedFlower" class="segment">
       <div class="title">Średnio w tygodniu</div>
       <div class="content">{{ calculateWaterPerWeek(getFlowerData(selectedFlower)?.waterForWatering) }}</div>
     </div>
-
     <div *ngIf="selectedFlower" class="segment">
       <div class="title">Średnio rocznie</div>
       <div class="content">{{ calculateWaterPerYear(getFlowerData(selectedFlower)?.waterForWatering) }}</div>
+    </div>
+    <div *ngIf="selectedFlower" class="segment">
+      <div class="title">W lato</div>
+      <div class="content">{{ getFlowerData(selectedFlower)?.summer }}</div>
+    </div>
+    <div *ngIf="selectedFlower" class="segment">
+      <div class="title">W zimę</div>
+      <div class="content">{{ getFlowerData(selectedFlower)?.winter }}</div>
     </div>
   </div>
 </div>

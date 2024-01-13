@@ -1,0 +1,10 @@
+canvas {
+  width: 100%;
+  height: 400px;
+}
+
+.mat-dialog-container {
+  max-width: 80%;
+  max-height: 80%;
+  overflow: auto;
+}
